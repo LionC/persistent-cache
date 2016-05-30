@@ -1,0 +1,26 @@
+{
+  "name": "persistent-cache",
+  "version": "0.1.0",
+  "description": "Simple persistent cache to store arbitrary data. Can also be used as a very simple data store.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LionC/persistent-cache.git"
+  },
+  "keywords": [
+    "node",
+    "cache",
+    "persistent",
+    "data",
+    "storage"
+  ],
+  "author": "LionC <me@lionc.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LionC/persistent-cache/issues"
+  },
+  "homepage": "https://github.com/LionC/persistent-cache#readme"
+}
