@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/LionC/persistent-cache/issues"
   },
-  "homepage": "https://github.com/LionC/persistent-cache#readme"
+  "homepage": "https://github.com/LionC/persistent-cache#readme",
+  "dependencies": {
+    "mkdirp-no-bin": "^0.5.1"
+  }
 }

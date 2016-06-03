@@ -1,30 +1,53 @@
 var path = require('path');
 var fs = require('fs');
+var mkdirp = require('mkdirp-no-bin');
+
+function exists(dir) {
+    try {
+        fs.accessSync(dir);
+    } catch(err) {
+        return false;
+    }
+
+    return true;
+}
+
+function safeCb(cb) {
+    if(typeof cb === 'function')
+        return cb;
+
+    return function(){};
+}
 
 function cache(options) {
     var options = options || {};
 
-    var cacheDir = path.dirname(require.main.filename) + '/' + (options.dir || 'cache');
-    var cacheInfinitely = options.infinite || false;
-    var cacheDuration = options.duration || 3600 * 24 * 7 * 2;
+    var base = path.normalize((options.dir || (path.dirname(require.main.filename)) + '/cache'));
+    var cacheDir = path.normalize(base + '/' + (options.name || 'cache'));
+    var cacheInfinitely = !(typeof options.duration === "number");
+    var cacheDuration = options.duration;
+    var ram = !!options.memory;
 
-    try {
-        fs.accessSync(cacheDir);
-    } catch(err) {
-        fs.mkdirSync(cacheDir);
-    }
+    if(!exists(cacheDir))
+        mkdirp.sync(cacheDir);
 
     function buildFilePath(name) {
-        return cacheDir + '/' + name + '.json';
+        return path.normalize(cacheDir + '/' + name + '.json');
     }
 
-    function put(name, data, cb) {
-        var cacheEntry = {
+    function buildCacheEntry(name, data) {
+        return {
             cacheUntil: !cacheInfinitely ? new Date().getTime() + cacheDuration : undefined,
             data: data
         };
+    }
 
-        fs.writeFile(buildFilePath(name), JSON.stringify(cacheEntry), cb);
+    function put(name, data, cb) {
+        fs.writeFile(buildFilePath(name), JSON.stringify(buildCacheEntry(name, data)), cb);
+    }
+
+    function putSync(name, data) {
+        fs.writeFileSync(buildFilePath(name), JSON.stringify(buildCacheEntry(name, data)));
     }
 
     function get(name, cb) {
@@ -32,28 +55,48 @@ function cache(options) {
 
         function onFileRead(err, content) {
             if(err != null) {
-                return cb('cache entry not found');
+                return safeCb(cb)('cache entry not found');
             }
 
             var data = JSON.parse(content);
 
-            if(new Date().getTime() > data.cacheUntil) {
-                return cb('cache entry expired');
+            if(data.cacheUntil && new Date().getTime() > data.cacheUntil) {
+                return safeCb(cb)('cache entry expired');
             }
 
-
-            return cb(null, data.data);
+            return safeCb(cb)(null, data.data);
         }
+    }
+
+    function getSync(name) {
+        try {
+            var data = JSON.parse(fs.readFile(buildFilePath(name), 'utf8' ,onFileRead));
+        } catch(e) {
+            throw 'cache entry not found';
+        }
+
+        if(data.cacheUntil && new Date().getTime() > data.cacheUntil)
+            throw 'cache entry expired';
+
+        return data.data;
     }
 
     function deleteEntry(name, cb) {
         fs.unlink(buildFilePath(name), cb);
     }
 
+    function deleteEntrySync(name) {
+        fs.unlinkSync(buildFilePath(name));
+    }
+
     return {
         put: put,
         get: get,
-        delete: deleteEntry
+        delete: deleteEntry,
+
+        putSync: putSync,
+        getSync: getSync,
+        deleteSync: deleteEntrySync
     };
 }
 
