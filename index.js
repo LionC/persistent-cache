@@ -26,7 +26,6 @@ function cache(options) {
     var cacheDir = path.normalize(base + '/' + (options.name || 'cache'));
     var cacheInfinitely = !(typeof options.duration === "number");
     var cacheDuration = options.duration;
-    var ram = !!options.memory;
 
     if(!exists(cacheDir))
         mkdirp.sync(cacheDir);
