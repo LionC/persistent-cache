@@ -53,6 +53,7 @@ describe('persistent-cache', function() {
 
         it('should share data across instances (and thus restarts)', function() {
             persistentCache().getSync('someObject').should.eql({a: 2, b: true});
+            persistentCache().getSync('isWaterWet').should.equal(true);
         });
 
         it('should return undefined on getting a nonexistent entry', function(done) {
