@@ -18,7 +18,7 @@ add the `--save` option to add `persistent-cache` to the `dependencies` in your 
 
     var cats = cache();
 
-`catCache` is now a cache with the default options, meaning it is a persistent
+`cats` is now a cache with the default options, meaning it is a persistent
 cache utilizing memory caching for performance, it has the name `cache`, caches
 data forever and is located in the `cache`-directory of the current main module.
 For all available options, see the bottom of this page.
