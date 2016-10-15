@@ -1,11 +1,11 @@
 {
   "name": "persistent-cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple module to persistently store/cache arbitrary data.",
   "main": "index.js",
   "repository": "LionC/persistent-cache",
   "scripts": {
-      "test": "mocha"
+    "test": "mocha"
   },
   "keywords": [
     "cache",
