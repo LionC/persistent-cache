@@ -31,7 +31,7 @@ describe('persistent-cache', function() {
         });
 
         it('should put data', function(done) {
-            cache.put('someObject', {a: 2, b: true}, done);
+            should(cache.put('someObject', {a: 2, b: true}, done)).not.throw();
         });
 
         it('should put data synchronously', function() {
