@@ -6,7 +6,9 @@ A simple Node module to persistently store/cache arbitrary data.
 
 Just run
 
-    npm install persistent-cache
+```shel
+npm install persistent-cache
+```
 
 add the `--save` option to add `persistent-cache` to the `dependencies` in your `package.json`
 
@@ -14,9 +16,11 @@ add the `--save` option to add `persistent-cache` to the `dependencies` in your 
 
 ### Create cache
 
-    var cache = require('persistent-cache');
+```js
+var cache = require('persistent-cache');
 
-    var cats = cache();
+var cats = cache();
+```
 
 `catCache` is now a cache with the default options, meaning it is a persistent
 cache utilizing memory caching for performance, it has the name `cache`, caches
@@ -27,11 +31,13 @@ An empty cache of cats is kind of sad. Let's bring some life to it.
 
 ### Insert data
 
-    //Asynchronous
-    cats.put('Cindy', {color: 'red'}, someCallback);
+```js
+//Asynchronous
+cats.put('Cindy', {color: 'red'}, someCallback);
 
-    //Synchronous
-    cats.putSync('babies', ['Ron', 'Emily']);
+//Synchronous
+cats.putSync('babies', ['Ron', 'Emily']);
+```
 
 Now our `cats`-cache has an entry `Cindy` containing an object `{color: 'red'}` and an entry `babies` containing an array of some names (strings).
 
@@ -43,13 +49,15 @@ Argh, my dog quit the program. I miss my cats :-( Lets retrieve them from the ca
 
 ### Retrieve data
 
-    cats.get('babies', function(err, babies) {
-        //check err for errors
+```js
+cats.get('babies', function(err, babies) {
+    //check err for errors
 
-        console.log(babies); //['Ron', 'Emily']
-    });
+    console.log(babies); //['Ron', 'Emily']
+});
 
-    console.log(cats.getSync('Cindy')); //{ color: 'red' }
+console.log(cats.getSync('Cindy')); //{ color: 'red' }
+```
 
 There they are :D
 
@@ -59,11 +67,13 @@ I found a new owner for my cute cat babies. So I need to remove them from my cac
 
 ### Delete data
 
-    cats.delete('babies', function(err) {
-        //Handle errors
+```js
+cats.delete('babies', function(err) {
+    //Handle errors
 
-        console.log('babies removed from cache');
-    });
+    console.log('babies removed from cache');
+});
+```
 
 I safely removed my cat babies from the cache. Yey!
 
@@ -73,19 +83,23 @@ I safely removed my cat babies from the cache. Yey!
 
 If you want to delete the folder and files of a persistent cache, simply call `unlink` on it:
 
-    cache.unlink(function(err) {
-        //The cache folder and files are gone now
-    })
+```js
+cache.unlink(function(err) {
+    //The cache folder and files are gone now
+})
+```
 
 A persistent cache will obviously not work anymore after `unlink`ing it.
 
 ## Options
 
-    var someCache = cache({
-        base: 'some/folder',
-        name: 'foo',
-        duration: 1000 * 3600 * 24 //one day
-    });
+```js
+var someCache = cache({
+    base: 'some/folder',
+    name: 'foo',
+    duration: 1000 * 3600 * 24 //one day
+});
+```
 
 When creating a new cache, you may pass an options object, with the following available properties:
 
