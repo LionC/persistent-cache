@@ -2,6 +2,7 @@ var should = require('should');
 var persistentCache = require('../index.js');
 var fs = require('fs');
 var path = require('path');
+var assertError = require('assert').ifError;
 
 function exists(dir) {
     try {
@@ -23,7 +24,7 @@ describe('persistent-cache', function() {
         });
 
         after(function() {
-            cache.unlink();
+            cache.unlink(assertError);
         });
 
         it('should create the default folders', function() {
@@ -93,13 +94,32 @@ describe('persistent-cache', function() {
         });
     });
 
+    describe('base-option', function () {
+        var cache;
+        var dir = path.normalize(process.cwd() + '/asdf/cache');
+
+        before(function() {
+            cache = persistentCache({
+                base: './asdf'
+            });
+        });
+
+        after(function() {
+            cache.unlink(assertError);
+        });
+
+        it('should create the correct folders', function() {
+            exists(dir).should.equal(true);
+        });
+    });
+
     describe('memory-only', function() {
         var cache;
 
         before(function() {
             cache = persistentCache({
                 persist: false,
-                dir: './'
+                base: './'
             });
         });
 

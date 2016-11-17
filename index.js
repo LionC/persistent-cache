@@ -24,7 +24,7 @@ function cache(options) {
     var options = options || {};
 
     var base = path.normalize(
-        (options.dir || require.main ? path.dirname(require.main.filename) : undefined || process.cwd())  + '/cache'
+        (options.base || (require.main ? path.dirname(require.main.filename) : undefined) || process.cwd())  + '/cache'
     );
     var cacheDir = path.normalize(base + '/' + (options.name || 'cache'));
     var cacheInfinitely = !(typeof options.duration === "number");
