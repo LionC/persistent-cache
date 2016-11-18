@@ -23,10 +23,6 @@ describe('persistent-cache', function() {
             cache = persistentCache();
         });
 
-        after(function() {
-            cache.unlink(assertError);
-        });
-
         it('should create the default folders', function() {
             exists(dir).should.equal(true);
         });
