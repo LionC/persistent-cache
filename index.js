@@ -157,6 +157,30 @@ function cache(options) {
         safeCb(cb)(null);
     }
 
+    function transformFileNameToKey(fileName) {
+        return fileName.slice(0, -5);
+    }
+
+    function keys(cb) {
+        cb = safeCb(cb);
+
+        if(ram && !persist)
+            return cb(null, Object.keys(memoryCache));
+
+        fs.readdir(cacheDir, onDirRead);
+
+        function onDirRead(err, files) {
+            return !!err ? cb(err) : cb(err, files.map(transformFileNameToKey));
+        }
+    }
+
+    function keysSync() {
+        if(ram && !persist)
+            return Object.keys(memoryCache);
+
+        return fs.readdirSync(cacheDir).map(transformFileNameToKey);
+    }
+
     return {
         put: put,
         get: get,
@@ -165,6 +189,9 @@ function cache(options) {
         putSync: putSync,
         getSync: getSync,
         deleteSync: deleteEntrySync,
+
+        keys: keys,
+        keysSync: keysSync,
 
         unlink: unlink
     };

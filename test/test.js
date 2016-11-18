@@ -65,6 +65,23 @@ describe('persistent-cache', function() {
             should(cache.getSync('iDontExistEither')).equal(undefined);
         });
 
+        it('should list all keys', function(done) {
+            cache.keys(function(err, keys) {
+                keys.should.be.instanceof(Array).and.have.lengthOf(2);
+                keys.should.containEql('someObject');
+                keys.should.containEql('isWaterWet');
+                done();
+            });
+        });
+
+        it('should list all synchronously', function() {
+            var keys = cache.keysSync();
+
+            keys.should.be.instanceof(Array).and.have.lengthOf(2);
+            keys.should.containEql('someObject');
+            keys.should.containEql('isWaterWet');
+        });
+
         it('should delete data', function(done) {
             cache.delete('isWaterWet', function(err) {
                 should(err).equal(null);
