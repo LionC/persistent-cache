@@ -65,6 +65,22 @@ There they are :D
 
 I found a new owner for my cute cat babies. So I need to remove them from my cache.
 
+## Getting available keys
+
+I forgot which cats I put in my cache. Fortunately I can look it up:
+
+```js
+cats.keys(function(err, keys) {
+    //Handle errors
+
+    console.log(keys); //['Cindy', 'babies']
+});
+
+console.log(cats.keysSync()); //['Cindy', 'babies']
+```
+
+`keys` (and its synchronous counterpart `keysSync`) finds all available keys in a cache.
+
 ### Delete data
 
 ```js
