@@ -63,8 +63,6 @@ There they are :D
 
 `cache.get(key, cb)` will get the data saved under `key` from the cache and call the provided callback when done, passing the retrieved data as the second argument (again, passing error first following node convention). `cache.getSync` is the synchronous counterpart, returning the data. If there is no (valid) cache entry for the provided `key`, `undefined` will be returned/passed.
 
-I found a new owner for my cute cat babies. So I need to remove them from my cache.
-
 ## Getting available keys
 
 I forgot which cats I put in my cache. Fortunately I can look it up:
@@ -80,6 +78,8 @@ console.log(cats.keysSync()); //['Cindy', 'babies']
 ```
 
 `keys` (and its synchronous counterpart `keysSync`) finds all available keys in a cache.
+
+I found a new owner for my cute cat babies. So I need to remove them from my cache.
 
 ### Delete data
 
