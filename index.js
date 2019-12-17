@@ -85,7 +85,14 @@ function cache(options) {
                 return safeCb(cb)(null, undefined);
             }
 
-            return safeCb(cb)(null, JSON.parse(entry.data));
+            try{
+                entry = JSON.parse(entry.data); 
+            }
+            catch(e){
+                return safeCb(cb)(e);
+            }
+
+            return safeCb(cb)(null, entry); 
         }
 
         fs.readFile(buildFilePath(name), 'utf8' ,onFileRead);
@@ -95,7 +102,13 @@ function cache(options) {
                 return safeCb(cb)(null, undefined);
             }
 
-            var entry = JSON.parse(content);
+            var entry;
+            try{ 
+                entry = JSON.parse(content);
+            }
+            catch(e){
+                return safeCb(cb)(e);
+            }
 
             if(!!entry.cacheUntil && new Date().getTime() > entry.cacheUntil) {
                 return safeCb(cb)(null, undefined);
