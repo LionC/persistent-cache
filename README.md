@@ -1,11 +1,9 @@
 # persistent-cache
 
-A simple Node module to persistently store/cache arbitrary data.
+A simple Node module to persistently store/cache arbitrary data. [NPMJS](https://www.npmjs.com/package/persistent-cache)
+
 
 ## How to install
-
-Just run
-
 ```shel
 npm install persistent-cache
 ```
